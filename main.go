@@ -2,10 +2,11 @@ package main
 
 import (
 	"log"
+	"os"
 	"strings"
 
-	"github.com/B3ns44d/analyze-text/config"
 	"github.com/gofiber/fiber/v2"
+	_ "github.com/joho/godotenv/autoload"
 	"github.com/valyala/fasthttp"
 )
 
@@ -30,8 +31,9 @@ func main() {
 			return c.Status(fasthttp.StatusBadRequest).SendString("Description is empty")
 		}
 		analyzer.Description = strings.Replace(analyzer.Description, " ", "%20", -1)
-		apiUrl := config.Config("API_URL")
-		apiKey := config.Config("API_KEY")
+
+		apiUrl := os.Getenv("API_URL")
+		apiKey := os.Getenv("API_KEY")
 
 		client := fasthttp.Client{}
 		req := fasthttp.AcquireRequest()
